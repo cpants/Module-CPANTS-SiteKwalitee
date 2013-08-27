@@ -44,7 +44,6 @@ sub kwalitee_indicators{
                 return 0;               
             },
             needs_db=>1,
-            is_extra=>1,
             details=>sub {
                 my $d = shift;
                 return "This distribution uses a module or a dist that's not listed as a prerequisite.";
@@ -64,7 +63,7 @@ sub kwalitee_indicators{
                 return "This distribution uses a module or a dist in it's test suite that's not listed as a build prerequisite.";
             },
             needs_db=>1,
-            is_experimental=>1,
+            is_extra=>1,
         },
         
     ];
