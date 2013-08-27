@@ -40,7 +40,8 @@ sub analyse {
     if (@msgs) {
         # work around Pod::Simple::Checker returning strange data
         my $errors=join("\n",@msgs);
-        $errors=~s/[^\w\d\s]+/ /g;
+        
+        $errors=~s/[^\w\d\s\/:]+/ /g;
         $me->d->{error}{no_pod_errors}=$errors;
     }
 }
