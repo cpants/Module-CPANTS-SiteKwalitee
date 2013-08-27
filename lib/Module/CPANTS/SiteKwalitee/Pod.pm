@@ -22,12 +22,16 @@ sub analyse {
     foreach my $file (@$files) {
         next unless $file=~/\.p(m|od|l)$/;
 
-        eval {
-            # Count the number of POD errors
-            my $parser=Pod::Simple::Checker->new;
-            my $errata;
-            $parser->output_string(\$errata);
-            $parser->parse_file(catfile($distdir,$file));
+        # Count the number of POD errors
+        my $parser=Pod::Simple::Checker->new;
+        my $errata;
+        $parser->output_string(\$errata);
+        eval { $parser->parse_file(catfile($distdir,$file)) };
+        if (my $error = $@) {
+            $error =~ s/ at .+? line \d+\.$//;
+            push(@msgs, $error);
+        }
+        else {
             my $errors=()=$errata=~/Around line /g;
             $pod_errors+=$errors;
             push(@msgs,$errata) if $errata=~/\w/;
