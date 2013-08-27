@@ -3,14 +3,27 @@ use strict;
 use warnings;
 use File::chdir;
 use Module::Signature qw(verify SIGNATURE_OK SIGNATURE_MISSING);
+use Capture::Tiny qw/capture_stderr/;
 
 sub order { 100 }
 
 sub analyse {
     my ($class, $self) = @_;
     local $CWD = $self->distdir;
-    local $SIG{__WARN__} = sub {};  # shut up M::S diagnostics
-    $self->d->{error}{valid_signature} = verify;
+
+    # a shortcut to ignore the most common warning.
+    # (the rest should be caught when necessary)
+    return $self->d->{valid_signature} = SIGNATURE_MISSING
+      unless -r $Module::Signature::SIGNATURE;
+
+    # capture warnings from both Module::Signature and gpg itself
+    my $err = capture_stderr {
+        local $SIG{__WARN__};
+        $self->d->{valid_signature} = verify;
+    };
+    if ($err) {
+        $self->d->{error}{valid_signature} = $err;
+    }
 }
 
 sub kwalitee_indicators {
@@ -19,8 +32,12 @@ sub kwalitee_indicators {
         error   => q{This dist failed its Module::Signature verification and does not to install automatically through the CPAN client if Module::Signature is installed. Note: unsigned dists will automatically pass this kwalitee check.},
         remedy  => q{Sign the dist as the last step before creating the archive. Take care not to modify/regenerate dist meta files or the manifest.},
         code    => sub {
-            my $v = shift->{error}{valid_signature};
-            return (SIGNATURE_OK == $v or SIGNATURE_MISSING == $v) ? 1 : 0;
+            my $v = shift->{valid_signature};
+            return (!defined $v or SIGNATURE_OK == $v or SIGNATURE_MISSING == $v) ? 1 : 0;
+        },
+        details=>sub {
+            my $d = shift;
+            return $d->{error}{valid_signature};
         },
     }];
 }
