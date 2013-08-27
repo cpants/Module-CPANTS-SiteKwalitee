@@ -1,6 +1,6 @@
 package Module::CPANTS::SiteKwalitee::Signature;
 use strict;
-use warnings FATAL => 'all';
+use warnings;
 use File::chdir;
 use Module::Signature qw(verify SIGNATURE_OK SIGNATURE_MISSING);
 
