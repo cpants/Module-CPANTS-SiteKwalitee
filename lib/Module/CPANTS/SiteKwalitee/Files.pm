@@ -34,7 +34,9 @@ sub analyse {
         # under some environment thus should be avoided.
         # Filenames that are not allowed under *nix can't be trapped
         # here now as they are not extracted at all.
-        if ($name =~ /[\*\?"<>\|:[:^ascii:]]/) {
+
+        # NOTE: [:^ascii:] became looser in Perl 5.18 and higher.
+        if ($name =~ /[\*\?"<>\|:]/ or $name =~ /[^ -~]/) {
             push @{$me->d->{error}{portable_filenames} ||= []}, $name;
         }
 
