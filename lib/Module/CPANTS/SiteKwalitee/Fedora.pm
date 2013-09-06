@@ -102,6 +102,8 @@ Returns the Kwalitee Indicators datastructure.
 
 =item * easily_repackageable_by_fedora
 
+=item * fits_fedora_license
+
 =back
 
 =head1 SEE ALSO

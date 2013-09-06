@@ -105,7 +105,11 @@ Returns the Kwalitee Indicators datastructure.
 
 =over
 
-=item * is_prereq (currently deactived)
+=item * is_prereq
+
+=item * prereq_matches_use
+
+=item * build_prereq_matches_use
 
 =back
 

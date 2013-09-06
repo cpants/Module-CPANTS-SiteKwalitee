@@ -141,7 +141,9 @@ Returns the Kwalitee Indicators datastructure.
 
 =over
 
-=item * has_version_in_each_file
+=item * consistent_version
+
+=item * package_version_matches_dist_version
 
 =back
 

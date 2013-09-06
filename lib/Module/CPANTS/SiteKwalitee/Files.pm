@@ -154,7 +154,31 @@ Module::CPANTS::SiteKwalitee::Files
 
 =head1 METHODS
 
-=head2 new
+=head3 order
+
+Defines the order in which Kwalitee tests should be run.
+
+=head3 analyse
+
+=head3 kwalitee_indicators
+
+Returns the Kwalitee Indicators datastructure.
+
+=over
+
+=item * buildtool_not_executable
+
+=item * no_dot_underscore_files
+
+=item * no_generated_files
+
+=item * portable_filenames
+
+=back
+
+=head1 SEE ALSO
+
+L<Module::CPANTS::Analyse>
 
 =head1 AUTHOR
 
