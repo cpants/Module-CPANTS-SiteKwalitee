@@ -24,17 +24,23 @@ sub analyse {
     local $Parse::PMFile::ALLOW_DEV_VERSION = 1;
     my $parser = Parse::LocalDistribution->new;
     my $provides = $parser->parse($distdir);
+    my (%versions, %errors);
     for (keys %$provides) {
-        delete $provides->{$_}{parsed};
-        delete $provides->{$_}{filemtime};
-        delete $provides->{$_}{simile};
-        $provides->{$_}{infile} =~ s/^$distdir//;
+        my $package = $provides->{$_};
+        delete $package->{parsed};
+        delete $package->{filemtime};
+        delete $package->{simile};
+        $package->{infile} =~ s!^$distdir/!!;
+        if (defined $package->{version}) {
+            $versions{$package->{infile}}{$_} = $package->{version};
+        }
+        if (my ($key) = grep /_error/, keys %$package) {
+            $errors{$package->{infile}}{$_} = $package->{$key};
+        }
     }
 
-    my %versions;
-    $versions{$provides->{$_}{infile}}{$_} = $provides->{$_}{version} for keys %$provides;
-
     $me->d->{versions} = \%versions;
+    $me->d->{error}{no_invalid_versions} = \%errors if %errors;
 
     return;
 }
@@ -47,6 +53,21 @@ sub analyse {
 
 sub kwalitee_indicators {
   return [
+    {
+        name=>'no_invalid_versions',
+        error=>qq{This distribution has .pm files with an invalid version.},
+        remedy=>q{Fix the version numbers so that version::is_lax($version) returns true.},
+        is_extra => 1,
+        code=>sub {
+            my $d=shift;
+            return 0 if $d->{error}{no_invalid_versions};
+            return 1;
+        },
+        details=>sub {
+            my $d = shift;
+            return $d->{error}{no_invalid_versions};
+        },
+    },
     {
         name=>'consistent_version',
         error=>qq{This distribution has .pm files with inconsistent versions.},
@@ -140,6 +161,8 @@ C<MCK::Version> uses C<Pares::PMFile> to parse .pm files
 Returns the Kwalitee Indicators datastructure.
 
 =over
+
+=item * no_invalid_versions
 
 =item * consistent_version
 
