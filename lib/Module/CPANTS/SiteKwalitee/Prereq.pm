@@ -51,7 +51,7 @@ sub kwalitee_indicators{
         },
         {
             name=>'build_prereq_matches_use',
-            error=>q{This distribution uses a module or a dist in it's test suite that's not listed as a build prerequisite.},
+            error=>q{This distribution uses a module or a dist in its test suite that's not listed as a build prerequisite.},
             remedy=>q{List all modules used in the test suite in META.yml build_requires},
             code=>sub {
                 # this metric can only be run from within 
@@ -60,7 +60,7 @@ sub kwalitee_indicators{
             },
             details=>sub {
                 my $d = shift;
-                return "This distribution uses a module or a dist in it's test suite that's not listed as a build prerequisite.";
+                return "This distribution uses a module or a dist in its test suite that's not listed as a build prerequisite.";
             },
             needs_db=>1,
             is_extra=>1,
