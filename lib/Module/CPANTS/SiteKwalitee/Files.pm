@@ -76,6 +76,13 @@ sub analyse {
         my @local_root_dirs = grep {!$seen{$_}++} map {(split '/', $_, 2)[0]} @local_files;
         $me->d->{error}{no_local_dirs} = join ',', @local_root_dirs;
     }
+
+    # no dot directories (most probably of VCS)
+    if (my @dot_dirs = grep {m!^(?:\.[^/]+)\b!} @{$me->d->{dirs_array} || []}) {
+        my %seen;
+        my @dot_root_dirs = grep {!$seen{$_}++} map {(split '/', $_, 2)[0]} @dot_dirs;
+        $me->d->{error}{no_dot_dirs} = join ',', @dot_root_dirs;
+    }
 }
 
 sub map_filenames {
@@ -150,6 +157,20 @@ sub kwalitee_indicators {
         },
     },
     {
+        name=>'no_dot_dirs',
+        error=>qq{This distribution has a dot directory, which most probably derives from a version control system.},
+        remedy=>q{Fix MANIFEST (or MANIFEST.SKIP) to exclude dot directories from a distribution. Use an appropriate tool and avoid archiving your working directory by hand. If you switch your version control system, remove old VCS directories after you migrate.},
+        code=>sub {
+            my $d=shift;
+            return 0 if $d->{error}{no_dot_dirs};
+            return 1;
+        },
+        details=>sub {
+            my $d = shift;
+            return "The following directories were found: " . $d->{error}{no_dot_dirs};
+        },
+    },
+    {
         name=>'no_local_dirs',
         is_extra => 1, # because it's so rare and PAUSE won't index modules in local dirs
         error=>qq{This distribution contains a well-known directory for local use (i.e. not suitable for a public distribution).},
@@ -194,6 +215,8 @@ Returns the Kwalitee Indicators datastructure.
 =over
 
 =item * buildtool_not_executable
+
+=item * no_dot_dirs
 
 =item * no_dot_underscore_files
 
