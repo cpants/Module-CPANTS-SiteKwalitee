@@ -22,6 +22,9 @@ sub analyse {
     foreach my $file (@$files) {
         next unless $file=~/\.p(m|od|l)$/;
 
+        # ignore pod files for examples/tests
+        next if $file =~ m!(?:^|/)(x?t|test|ex|eg|examples?|samples?|demos?|inc|local|perl5|fatlib)/!;
+
         # Count the number of POD errors
         my $parser=Pod::Simple::Checker->new;
         my $errata;
