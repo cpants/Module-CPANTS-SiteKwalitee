@@ -63,7 +63,7 @@ sub kwalitee_indicators{
                 return "This distribution uses a module or a dist in its test suite that's not listed as a build prerequisite.";
             },
             needs_db=>1,
-            is_extra=>1,
+            is_experimental => 1,  # needs refactoring
         },
         
     ];
