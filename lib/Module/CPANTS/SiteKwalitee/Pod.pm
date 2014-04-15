@@ -42,9 +42,9 @@ sub analyse {
     }
     if (@msgs) {
         # work around Pod::Simple::Checker returning strange data
-        my $errors=join("\n",@msgs);
-        
-        $errors=~s/[^\w\d\s\/:]+/ /g;
+        my $errors=join("",@msgs);
+        $errors =~ s!\n!!g;
+        $errors =~ s|POD ERRORSHey! The above document had some coding errors, which are explained below:||;
         $me->d->{error}{no_pod_errors}=$errors;
     }
 }
