@@ -64,6 +64,18 @@ sub analyse {
         $build_exe=-1 unless ($me->d->{file_makefile_pl} || $me->d->{file_build_pl});
         $me->d->{buildfile_executable}=$build_exe;
     }
+
+    # no local directories (for local::lib, carton etc)
+    # NOTE: Some dists use the 'local' directory to put author-only
+    # configurations and tools. It may not be good, but we shouldn't
+    # be too picky, especially when we tolerate 'xt' stuff.
+    # Only local directories with modules (which will be ignored by
+    # PAUSE) should be caught here.
+    if (my @local_files = grep {m!^(?:local|perl5|fatlib)/.+?\.pm$!} keys %{$me->d->{files_hash} || {}}) {
+        my %seen;
+        my @local_root_dirs = grep {!$seen{$_}++} map {(split '/', $_, 2)[0]} @local_files;
+        $me->d->{error}{no_local_dirs} = join ',', @local_root_dirs;
+    }
 }
 
 sub map_filenames {
@@ -137,6 +149,21 @@ sub kwalitee_indicators {
             return "The following files were found: " . (join ', ', @{$d->{error}{no_dot_underscore_files}});
         },
     },
+    {
+        name=>'no_local_dirs',
+        is_extra => 1, # because it's so rare and PAUSE won't index modules in local dirs
+        error=>qq{This distribution contains a well-known directory for local use (i.e. not suitable for a public distribution).},
+        remedy=>q{Fix MANIFEST (or MANIFEST.SKIP) to exclude local directories from a distribution.},
+        code=>sub {
+            my $d=shift;
+            return 0 if $d->{error}{no_local_dirs};
+            return 1;
+        },
+        details=>sub {
+            my $d = shift;
+            return "The following directories were found: " . $d->{error}{no_local_dirs};
+        },
+    },
   ];
 }
 
@@ -171,6 +198,8 @@ Returns the Kwalitee Indicators datastructure.
 =item * no_dot_underscore_files
 
 =item * no_generated_files
+
+=item * no_local_dirs
 
 =item * portable_filenames
 
