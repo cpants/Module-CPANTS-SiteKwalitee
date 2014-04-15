@@ -2,7 +2,6 @@ package Module::CPANTS::SiteKwalitee::Files;
 
 use strict;
 use warnings;
-use File::Find::Rule;
 use File::Spec::Functions qw(catdir catfile);
 
 sub order { 16 } # after ::Kwalitee::Files
@@ -16,11 +15,8 @@ sub analyse {
     my $me=shift;
     my $distdir=$me->distdir;
 
-    my @files = File::Find::Rule->file()->relative()->in($distdir);
-    my @dirs  = File::Find::Rule->directory()->relative()->in($distdir);
-
     my @dot_underscore_files;
-    foreach my $name (@files) {
+    foreach my $name (keys %{$me->d->{files_hash} || {}}) {
         my $path = catfile($distdir, $name);
 
         # chmod if not readable
@@ -47,7 +43,7 @@ sub analyse {
     $me->d->{error}{no_dot_underscore_files} = \@dot_underscore_files if @dot_underscore_files;
 
     my @generated_files=qw(Build Makefile _build blib pm_to_blib); # files that should not...
-    my %generated_db_files=map_filenames($me, \@generated_files, \@files);
+    my %generated_db_files=map_filenames($me, \@generated_files, [keys %{$me->d->{files_hash} || {}}]);
     my @found_generated_files = map { $generated_db_files{$_} }
                                 grep { $me->d->{$_} }
                                 keys %generated_db_files;
