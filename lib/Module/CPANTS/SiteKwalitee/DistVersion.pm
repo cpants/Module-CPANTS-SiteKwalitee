@@ -49,7 +49,7 @@ sub kwalitee_indicators {
                 my $d = shift;
                 my $version = $d->{version};
                 return "This distribution doesn't have a version number." unless defined $version;
-                $version =~ s/\-TRIAL$//;
+                $version =~ s/\-TRIAL[0-9]*$//;
                 return "The version ($version) doesn't look like a number.";
             },
         },
