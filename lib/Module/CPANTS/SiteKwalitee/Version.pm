@@ -19,6 +19,7 @@ sub analyse {
     my $class=shift;
     my $me=shift;
     my $distdir=$me->distdir;
+    $distdir =~ s|\\|/|g if $^O eq 'MSWin32';
 
     no warnings 'once';
     local $Parse::PMFile::ALLOW_DEV_VERSION = 1;
