@@ -31,7 +31,7 @@ sub analyse {
         delete $package->{parsed};
         delete $package->{filemtime};
         delete $package->{simile};
-        $package->{infile} =~ s!^$distdir/!!;
+        ($package->{infile} //= '') =~ s!^$distdir/!!;
         if (defined $package->{version}) {
             $versions{$package->{infile}}{$_} = $package->{version};
         }
@@ -113,7 +113,7 @@ sub kwalitee_indicators {
                     my $version = $d->{versions}{$file}{$package};
                     next unless defined $version;
                     return 1 if $version eq $distv;
-                    return 1 if $distvv and $distvv eq eval { version->new($version) };
+                    return 1 if $distvv and $distvv eq (eval { version->new($version) } // '');
                 }
             }
             return 0;
