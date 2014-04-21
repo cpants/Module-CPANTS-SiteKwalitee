@@ -30,7 +30,7 @@ for my $test (@tests) {
     my $context = Module::CPANTS::TestContext->new($dir);
 
     eval { Module::CPANTS::SiteKwalitee::Signature->analyse($context) };
-    is $context->d->{error}{valid_signature} => $test->[1], "$test->[0]: $test->[1]";
+    is $context->d->{valid_signature} => $test->[1], "$test->[0]: $test->[1]";
   });
 }
 
