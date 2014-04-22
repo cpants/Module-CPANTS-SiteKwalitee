@@ -113,7 +113,10 @@ sub kwalitee_indicators {
                     my $version = $d->{versions}{$file}{$package};
                     next unless defined $version;
                     return 1 if $version eq $distv;
-                    return 1 if $distvv and $distvv eq (eval { version->new($version) } // '');
+                    if ($distvv) {
+                        my $packagev = eval { version->new($version) } or next;
+                        return 1 if $distvv->numify == $packagev->numify;
+                    }
                 }
             }
             return 0;

@@ -16,4 +16,6 @@ xt::kwalitee::Test::run(
 
   # illegal provides
   ['DJERIUS/Lua-API-0.02.tar.gz', 0],
+  ['SHLOMIF/HTML-TabbedExamples-Generate-0.0.5.tar.gz', 1],
+  ['JANDREW/Data-Walk-Extracted-0.024.004.tar.gz', 1],
 );
