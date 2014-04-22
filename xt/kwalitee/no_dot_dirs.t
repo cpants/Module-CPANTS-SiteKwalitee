@@ -3,7 +3,6 @@ use warnings;
 use xt::kwalitee::Test;
 
 xt::kwalitee::Test::run(
-
   # .svn
   ['WAZZUTEKE/Net-Twitter-RandomUpdate-1.2.tar.gz', 0], # 4710
   ['HOVENKO/HTML-ScriptLoader-1.00.tar.gz', 0], # 5160

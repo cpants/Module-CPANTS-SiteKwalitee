@@ -3,7 +3,6 @@ use warnings;
 use xt::kwalitee::Test;
 
 xt::kwalitee::Test::run(
-
   # string in version
   ['TIMA/Bundle-Melody-Test-0.9.6a.tar.gz', 0], # 2042
   ['JHARDING/Text-Typoifier-0.04a.tar.gz', 0], # 2334

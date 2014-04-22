@@ -5,7 +5,6 @@ use xt::kwalitee::Test;
 Test::More::plan skip_all => "This test requires databases";
 
 xt::kwalitee::Test::run(
-
   [ # a test module in t/lib, evaled build prereqs
   ['ISHIGAKI/Acme-CPANAuthors-0.20.tar.gz', 1],
   ['ISHIGAKI/Test-UseAllModules-0.14.tar.gz'],

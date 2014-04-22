@@ -3,7 +3,6 @@ use warnings;
 use xt::kwalitee::Test;
 
 xt::kwalitee::Test::run(
-
   # local, but no .pm files
   ['ERMEYERS/Bundle-Modules-2006.0606.tar.gz', 1], # 29296
 
