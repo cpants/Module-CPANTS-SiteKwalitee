@@ -107,7 +107,7 @@ sub kwalitee_indicators {
             my $distv = $d->{version};
             return 0 unless defined $distv;
             $distv =~ s/\-TRIAL[0-9]*$//;
-            my $distvv = ($distv =~ /^v/ or $distv =~ s/\./\./g > 1) ? eval { version->new($distv) } : undef;
+            my $distvv = eval { version->new($distv) };
             for my $file (keys %{$d->{versions}}) {
                 for my $package (keys %{$d->{versions}{$file}}) {
                     my $version = $d->{versions}{$file}{$package};
