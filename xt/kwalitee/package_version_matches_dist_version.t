@@ -18,4 +18,5 @@ xt::kwalitee::Test::run(
   ['SHLOMIF/HTML-TabbedExamples-Generate-0.0.5.tar.gz', 1],
   ['JANDREW/Data-Walk-Extracted-0.024.004.tar.gz', 1],
   ['DOMM/Module-ExtractUse-0.33.tar.gz', 1],
+  ['MEWILCOX/apache.authznetldap.02.tar.gz', 1], # 1051
 );
