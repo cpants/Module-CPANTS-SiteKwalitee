@@ -29,7 +29,9 @@ sub analyse {
         my $parser=Pod::Simple::Checker->new;
         my $errata;
         $parser->output_string(\$errata);
-        eval { $parser->parse_file(catfile($distdir,$file)) };
+        my $fullpath = catfile($distdir,$file);
+        $fullpath =~ s!\\!/!g if $^O eq 'MSWin32';
+        eval { $parser->parse_file($fullpath) };
         if (my $error = $@) {
             $error =~ s/ at .+? line \d+\.$//;
             push(@msgs, $error);
@@ -42,9 +44,9 @@ sub analyse {
     }
     if (@msgs) {
         # work around Pod::Simple::Checker returning strange data
-        my $errors=join("",@msgs);
+        my $errors=join(" ",@msgs);
         $errors =~ s!\n!!g;
-        $errors =~ s|POD ERRORSHey! The above document had some coding errors, which are explained below:||;
+        $errors =~ s|POD *ERRORS *Hey! The above document had some coding errors, which are explained below:| |g;
         $me->d->{error}{no_pod_errors}=$errors;
     }
 }
