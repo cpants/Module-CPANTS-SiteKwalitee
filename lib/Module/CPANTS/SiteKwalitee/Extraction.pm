@@ -53,7 +53,7 @@ sub kwalitee_indicators {
         code=>sub { shift->{no_pax_headers} ? 1 : 0 },
         details=>sub {
             my $d = shift;
-            return "PAX extended headers were found.";
+            return "PAX extended headers were found: " . $d->{error}{no_pax_headers};
         }
     },
 ];
