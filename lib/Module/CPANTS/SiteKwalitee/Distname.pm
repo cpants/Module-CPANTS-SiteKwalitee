@@ -39,7 +39,7 @@ sub kwalitee_indicators {
             },
             details=>sub {
                 my $d = shift;
-                return "The distribution name ($d->{dist}) doesn't match the name in META ($d->{meta_yml}{name}).";
+                return "The distribution name ($d->{dist}) doesn't match the name in META (".($d->{meta_yml}{name} || '').").";
             },
         },
     ];
