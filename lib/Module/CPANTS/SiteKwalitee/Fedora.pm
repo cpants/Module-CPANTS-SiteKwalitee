@@ -31,6 +31,7 @@ sub kwalitee_indicators{
             remedy=>q{Fix each one of the metrics this depends on.},
             aggregating=> [qw(no_generated_files fits_fedora_license)],
             is_experimental=>1,
+            is_disabled=>1,
             code=>\&_aggregator,
             details=>sub {
                 my $d = shift;
@@ -42,6 +43,7 @@ sub kwalitee_indicators{
             error=>qq{Fits the licensing requirements of Fedora ($fedora_licenses).},
             remedy=>q{Replace the license or convince Fedora to accept this license as well.},
             is_experimental=>1,
+            is_disabled=>1,
             code=>sub { 
                 my $d=shift;
                 my $license = $d->{meta_yml}{license};

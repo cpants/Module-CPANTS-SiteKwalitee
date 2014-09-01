@@ -26,6 +26,7 @@ sub kwalitee_indicators{
             error=>qq{It is easy to repackage this module by Debian.},
             remedy=>q{Fix each one of the metrics this depends on.},
             aggregating => [qw(no_generated_files has_tests_in_t_dir no_stdin_for_prompting)],
+            is_disabled=>1,
             is_experimental=>1,
             code=>\&_aggregator,
             details=>sub {
