@@ -17,7 +17,6 @@ xt::kwalitee::Test::run(
   ['CRENZ/Module-Find-0.11.tar.gz'],
   ['MAKAMAKA/JSON-2.57.tar.gz'],
   ['DOY/Try-Tiny-0.12.tar.gz'],
-
   ],
   [
   ['ETHER/Dist-Zilla-Plugin-Test-CleanNamespaces-0.004.tar.gz', 1],
