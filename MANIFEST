@@ -1,11 +1,14 @@
 Changes
+cpanfile
 lib/Module/CPANTS/SiteKwalitee.pm
 lib/Module/CPANTS/SiteKwalitee/Debian.pm
+lib/Module/CPANTS/SiteKwalitee/Distname.pm
 lib/Module/CPANTS/SiteKwalitee/DistVersion.pm
 lib/Module/CPANTS/SiteKwalitee/Extraction.pm
 lib/Module/CPANTS/SiteKwalitee/Fedora.pm
 lib/Module/CPANTS/SiteKwalitee/Files.pm
 lib/Module/CPANTS/SiteKwalitee/MyMeta.pm
+lib/Module/CPANTS/SiteKwalitee/Permissions.pm
 lib/Module/CPANTS/SiteKwalitee/Pod.pm
 lib/Module/CPANTS/SiteKwalitee/Prereq.pm
 lib/Module/CPANTS/SiteKwalitee/Signature.pm
