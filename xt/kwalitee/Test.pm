@@ -6,6 +6,7 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/../../../Module-CPANTS-Analyse/lib";
 use Test::More;
+use JSON::MaybeXS;
 
 BEGIN {
   eval { require WorePAN };
@@ -21,8 +22,6 @@ sub run {
   my ($caller, $file) = caller;
 
   my ($name) = $file =~ /(\w+)\.t$/;
-
-  plan tests => scalar @tests;
 
   for my $test (@tests) {
     my $worepan = WorePAN->new(
@@ -42,7 +41,16 @@ sub run {
     $analyzer->calc_kwalitee if $metric->{aggregating};
     my $result = $metric->{code}->($analyzer->d, $metric);
     is $result => $test->[1], "$test->[0] $name: $result";
+
+    if (!$result) {
+      my $details = $metric->{details}->($analyzer->d) || '';
+      ok $details, ref $details ? encode_json($details) : $details;
+    }
+    if ($test->[2]) {
+      note explain $analyzer->d;
+    }
   }
+  done_testing;
 }
 
 1;
