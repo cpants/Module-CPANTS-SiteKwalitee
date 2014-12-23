@@ -50,7 +50,7 @@ sub kwalitee_indicators {
         name=>'no_pax_headers',
         error=>q{This distribution is archived with PAX extended headers, which may be useful under some environments, but may also make extraction fail under other environments (Archive::Tar ignores PAX information as well).},
         remedy=>q{If you use Mac OS X >= 10.6, use gnu tar (/usr/bin/gnutar) to avoid PAX headers. It's also important to rename (shorten) long file names (>= 100 characters) in the distribution.},
-        code=>sub { shift->{no_pax_headers} ? 1 : 0 },
+        code=>sub { shift->{error}{no_pax_headers} ? 0 : 1 },
         details=>sub {
             my $d = shift;
             return "PAX extended headers were found: " . $d->{error}{no_pax_headers};
