@@ -114,7 +114,7 @@ sub kwalitee_indicators {
                     next unless defined $version;
                     return 1 if $version eq $distv;
                     if ($distvv) {
-                        my $packagev = eval { version->new($version) } or next;
+                        my $packagev = eval { version->new($version."") } or next;
                         return 1 if eval $distvv->numify == eval $packagev->numify;
                     }
                 }
