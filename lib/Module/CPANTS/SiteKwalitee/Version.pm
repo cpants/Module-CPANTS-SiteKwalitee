@@ -1,12 +1,8 @@
 package Module::CPANTS::SiteKwalitee::Version;
 use warnings;
 use strict;
-use File::Find;
 use File::Spec::Functions qw(catdir catfile abs2rel splitdir);
-use File::stat;
-use File::Basename;
 use Parse::LocalDistribution;
-use List::Util qw/first/;
 use version;
 
 sub order { 200 }
