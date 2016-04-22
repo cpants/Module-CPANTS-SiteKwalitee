@@ -19,8 +19,8 @@ sub analyse {
 
     no warnings 'once';
     local $Parse::PMFile::ALLOW_DEV_VERSION = 1;
-    my $parser = Parse::LocalDistribution->new;
-    my $provides = $parser->parse($distdir);
+    my $parser = Parse::LocalDistribution->new($distdir);
+    my $provides = $parser->parse;
     my (%versions, %errors);
     for (keys %$provides) {
         my $package = $provides->{$_};
