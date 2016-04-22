@@ -16,7 +16,7 @@ sub analyse {
     my $distdir=$me->distdir;
 
     my @dot_underscore_files;
-    foreach my $name (keys %{$me->d->{files_hash} || {}}) {
+    foreach my $name (sort keys %{$me->d->{files_hash} || {}}) {
         my $path = catfile($distdir, $name);
 
         # chmod if not readable
@@ -40,7 +40,7 @@ sub analyse {
             push @dot_underscore_files, $name;
         }
     }
-    $me->d->{error}{no_dot_underscore_files} = \@dot_underscore_files if @dot_underscore_files;
+    $me->d->{error}{no_dot_underscore_files} = [sort @dot_underscore_files] if @dot_underscore_files;
 
     my @generated_files=qw(Build Makefile _build blib pm_to_blib); # files that should not...
     my %generated_db_files=map_filenames($me, \@generated_files, [keys %{$me->d->{files_hash} || {}}]);
@@ -48,7 +48,7 @@ sub analyse {
                                 grep { $me->d->{$_} }
                                 keys %generated_db_files;
     if (@found_generated_files) {
-        $me->d->{error}{no_generated_files} = join ", ", @found_generated_files;
+        $me->d->{error}{no_generated_files} = join ", ", sort @found_generated_files;
     }
 
     # Check permissions of Build.PL/Makefile.PL
@@ -70,7 +70,7 @@ sub analyse {
     if (my @local_files = grep {m!^(?:local|perl5|fatlib)/.+?\.pm$!} keys %{$me->d->{files_hash} || {}}) {
         my %seen;
         my @local_root_dirs = grep {!$seen{$_}++} map {(split '/', $_, 2)[0]} @local_files;
-        $me->d->{error}{no_local_dirs} = join ',', @local_root_dirs;
+        $me->d->{error}{no_local_dirs} = join ',', sort @local_root_dirs;
     }
 
     # no dot directories (most probably of VCS)
