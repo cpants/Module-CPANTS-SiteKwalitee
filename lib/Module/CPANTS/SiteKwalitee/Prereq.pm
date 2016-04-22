@@ -33,6 +33,7 @@ sub kwalitee_indicators{
             },
             needs_db=>1,
             is_extra=>1,
+            is_disabled=>1,
         },
         {
             name=>'prereq_matches_use',
