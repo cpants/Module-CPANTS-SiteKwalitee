@@ -17,10 +17,12 @@ sub analyse {
     my $distdir=$me->distdir;
     $distdir =~ s|\\|/|g if $^O eq 'MSWin32';
 
-    no warnings 'once';
-    local $Parse::PMFile::ALLOW_DEV_VERSION = 1;
-    my $parser = Parse::LocalDistribution->new($distdir);
-    my $provides = $parser->parse;
+    my $provides = do {
+        no warnings 'once';
+        local $Parse::PMFile::ALLOW_DEV_VERSION = 1;
+        local $SIG{__WARN__} = sub {};
+        Parse::LocalDistribution->new($distdir)->parse;
+    };
     my (%versions, %errors);
     for (keys %$provides) {
         my $package = $provides->{$_};
