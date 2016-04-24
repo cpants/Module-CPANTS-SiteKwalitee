@@ -151,6 +151,7 @@ sub kwalitee_indicators {
             my $d = shift;
             return "The following files were found: " . (join ', ', @{$d->{error}{no_dot_underscore_files}});
         },
+        is_extra => 1,
     },
     {
         name=>'no_dot_dirs',
@@ -165,6 +166,7 @@ sub kwalitee_indicators {
             my $d = shift;
             return "The following directories were found: " . $d->{error}{no_dot_dirs};
         },
+        is_extra => 1,
     },
     {
         name=>'no_local_dirs',

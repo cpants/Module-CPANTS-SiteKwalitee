@@ -94,6 +94,7 @@ sub kwalitee_indicators {
             my $d = shift;
             return $d->{error}{consistent_version};
         },
+        is_extra => 1,
     },
     {
         name=>'package_version_matches_dist_version',
