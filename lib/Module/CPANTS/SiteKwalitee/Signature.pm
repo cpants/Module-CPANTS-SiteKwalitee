@@ -22,7 +22,13 @@ sub analyse {
         $self->d->{valid_signature} = verify;
     };
     if ($err) {
-        $self->d->{error}{valid_signature} = $err;
+        # We can (probably) safely ignore the following warnings
+        # from Module::Signature, as long as the signature is
+        # considered OK.
+        if ($self->d->{valid_signature} == SIGNATURE_OK) {
+            $err =~ s/^WARNING: This key is not certified with a trusted signature!\nPrimary key fingerprint:(?: +[\dA-F]{4}){10,}\n//sm;
+        }
+        $self->d->{error}{valid_signature} = $err if $err;
     }
 }
 
