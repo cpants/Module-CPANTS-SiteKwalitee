@@ -4,7 +4,7 @@ use strict;
 use Pod::Simple::Checker;
 use File::Spec::Functions qw(catfile);
 
-sub order { 100 }
+sub order { 1000 }
 
 ##################################################################
 # Analyse
@@ -24,6 +24,9 @@ sub analyse {
 
         # ignore pod files for examples/tests
         next if $file =~ m!(?:^|/)(x?t|test|ex|eg|examples?|samples?|demos?|inc|local|perl5|fatlib)/!;
+
+        # ignore if the file has binary data section
+        next if $me->d->{files_hash}{$file}{has_binary_data};
 
         # Count the number of POD errors
         my $parser=Pod::Simple::Checker->new;

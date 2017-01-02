@@ -16,4 +16,7 @@ xt::kwalitee::Test::run(
 
   # broken pod for testing should not be counted
   ['RJBS/Pod-Elemental-0.103000.tar.gz', 1],
+
+  # has binary data
+  ['DCANTRELL/Number-Phone-3.3000.tar.gz', 1],
 );
