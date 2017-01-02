@@ -19,4 +19,7 @@ xt::kwalitee::Test::run(
 
   # has binary data
   ['DCANTRELL/Number-Phone-3.3000.tar.gz', 1],
+
+  # no actual data
+  ['APLA/DBI-Easy-0.18.tar.gz', 1],
 );
