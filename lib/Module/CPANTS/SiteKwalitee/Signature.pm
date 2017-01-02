@@ -27,7 +27,9 @@ sub analyse {
         # from Module::Signature, as long as the signature is
         # considered OK.
         if ($self->d->{valid_signature} == SIGNATURE_OK) {
-            $err =~ s/^WARNING: This key is not certified with a trusted signature!\nPrimary key fingerprint:(?: +[\dA-F]{4}){10,}\n//sm;
+            $err =~ s/^WARNING: This key is not certified with a trusted signature!\n.*Primary key fingerprint:(?: +[\dA-F]{4}){10,}\n//sm;
+            $err =~ s/^\s+//s;
+            $err =~ s/\s+$//s;
         }
         $self->d->{error}{valid_signature} = $err if $err;
     }
