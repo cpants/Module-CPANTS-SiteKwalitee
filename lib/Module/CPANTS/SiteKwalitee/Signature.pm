@@ -19,6 +19,7 @@ sub analyse {
     # capture warnings from both Module::Signature and gpg itself
     my $err = capture_stderr {
         local $SIG{__WARN__};
+        local $ENV{LANG} = 'C';
         $self->d->{valid_signature} = verify;
     };
     if ($err) {
