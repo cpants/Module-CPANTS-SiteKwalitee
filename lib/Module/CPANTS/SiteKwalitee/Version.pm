@@ -97,8 +97,8 @@ sub kwalitee_indicators {
         is_extra => 1,
     },
     {
-        name=>'package_version_matches_dist_version',
-        error=>qq{None of the package versions in this distribution matches the distribution version.},
+        name=>'main_module_version_matches_dist_version',
+        error=>qq{The version of the main module in this distribution doesn't match the distribution version.},
         remedy=>q{Fix the version(s).},
         code=>sub {
             my $d=shift;
@@ -107,23 +107,28 @@ sub kwalitee_indicators {
             return 0 unless defined $distv;
             $distv =~ s/\-TRIAL[0-9]*$//;
             my $distvv = eval { version->new($distv) };
+
+            my $main_module = ($d->{dist} || '') =~ s/\-/::/gr;
             for my $file (keys %{$d->{versions}}) {
                 for my $package (keys %{$d->{versions}{$file}}) {
+                    next unless $package eq $main_module;
                     my $version = $d->{versions}{$file}{$package};
-                    next unless defined $version;
+                    return 0 unless defined $version;
                     return 1 if $version eq $distv;
                     if ($distvv) {
                         no warnings; # to silence "numify is lossy"
-                        my $packagev = eval { version->new($version."") } or next;
+                        my $packagev = eval { version->new($version."") } or return 0;
                         return 1 if eval $distvv->numify == eval $packagev->numify;
                     }
+                    return 0;
                 }
             }
             return 0;
         },
         details=>sub {
             my $d = shift;
-            return "None of the package versions in this distribution matches the distribution version.";
+            my $main_module = ($d->{dist} || '') =~ s/\-/::/gr;
+            return "The version of the main module ($main_module) in this distribution matches the distribution version.";
         },
     },
 ];

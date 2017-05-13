@@ -20,7 +20,8 @@ xt::kwalitee::Test::run(
   ['SHLOMIF/HTML-TabbedExamples-Generate-0.0.5.tar.gz', 1],
   ['JANDREW/Data-Walk-Extracted-0.024.004.tar.gz', 1],
   ['DOMM/Module-ExtractUse-0.33.tar.gz', 1],
-  ['MEWILCOX/apache.authznetldap.02.tar.gz', 1], # 1051
+
+  ['MEWILCOX/apache.authznetldap.02.tar.gz', 0], # 1051
 
   # four dots (may lose info if parsed as a number)
   ['MISHIN/POD2-RU-5.18.0.1.33.tar.gz', 1],
