@@ -98,8 +98,8 @@ sub kwalitee_indicators {
     },
     {
         name=>'main_module_version_matches_dist_version',
-        error=>qq{The version of the main module in this distribution doesn't match the distribution version.},
-        remedy=>q{Fix the version(s).},
+        error=>q{The version and/or name of the main module in this distribution doesn't match the distribution version and/or name.},
+        remedy=>q{Make sure that the main module name and version are the same of the distribution.},
         code=>sub {
             my $d=shift;
 
@@ -128,7 +128,7 @@ sub kwalitee_indicators {
         details=>sub {
             my $d = shift;
             my $main_module = ($d->{dist} || '') =~ s/\-/::/gr;
-            return "The version of the main module ($main_module) in this distribution matches the distribution version.";
+            return "The version and name of the main module ($main_module) in this distribution matches the distribution name and version.";
         },
     },
 ];
