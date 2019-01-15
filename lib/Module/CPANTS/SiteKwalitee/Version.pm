@@ -12,9 +12,9 @@ sub order { 200 }
 ##################################################################
 
 sub analyse {
-    my $class=shift;
-    my $me=shift;
-    my $distdir=$me->distdir;
+    my $class = shift;
+    my $me = shift;
+    my $distdir = $me->distdir;
     $distdir =~ s|\\|/|g if $^O eq 'MSWin32';
 
     my $provides = do {
@@ -53,26 +53,26 @@ sub analyse {
 sub kwalitee_indicators {
   return [
     {
-        name=>'no_invalid_versions',
-        error=>qq{This distribution has .pm files with an invalid version.},
-        remedy=>q{Fix the version numbers so that version::is_lax($version) returns true.},
+        name => 'no_invalid_versions',
+        error => qq{This distribution has .pm files with an invalid version.},
+        remedy => q{Fix the version numbers so that version::is_lax($version) returns true.},
         is_extra => 1,
-        code=>sub {
-            my $d=shift;
+        code => sub {
+            my $d = shift;
             return 0 if $d->{error}{no_invalid_versions};
             return 1;
         },
-        details=>sub {
+        details => sub {
             my $d = shift;
             return $d->{error}{no_invalid_versions};
         },
     },
     {
-        name=>'consistent_version',
-        error=>qq{This distribution has .pm files with inconsistent versions.},
-        remedy=>q{Split the distribution, or fix the version numbers to make them consistent (use the highest version number to avoid version downgrade).},
-        code=>sub {
-            my $d=shift;
+        name => 'consistent_version',
+        error => qq{This distribution has .pm files with inconsistent versions.},
+        remedy => q{Split the distribution, or fix the version numbers to make them consistent (use the highest version number to avoid version downgrade).},
+        code => sub {
+            my $d = shift;
 
             my %seen;
             for my $file (keys %{$d->{versions}}) {
@@ -90,18 +90,18 @@ sub kwalitee_indicators {
             $d->{error}{consistent_version} = join ',', sort @versions;
             return 0;
         },
-        details=>sub {
+        details => sub {
             my $d = shift;
             return $d->{error}{consistent_version};
         },
         is_extra => 1,
     },
     {
-        name=>'main_module_version_matches_dist_version',
-        error=>q{The version and/or name of the main module in this distribution doesn't match the distribution version and/or name.},
-        remedy=>q{Make sure that the main module name and version are the same of the distribution.},
-        code=>sub {
-            my $d=shift;
+        name => 'main_module_version_matches_dist_version',
+        error => q{The version and/or name of the main module in this distribution doesn't match the distribution version and/or name.},
+        remedy => q{Make sure that the main module name and version are the same of the distribution.},
+        code => sub {
+            my $d = shift;
 
             my $distv = $d->{version};
             return 0 unless defined $distv;
@@ -125,7 +125,7 @@ sub kwalitee_indicators {
             }
             return 0;
         },
-        details=>sub {
+        details => sub {
             my $d = shift;
             my $main_module = ($d->{dist} || '') =~ s/\-/::/gr;
             return "The version and name of the main module ($main_module) in this distribution matches the distribution name and version.";

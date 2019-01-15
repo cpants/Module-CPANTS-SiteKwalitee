@@ -11,16 +11,16 @@ sub order { 1000 }
 ##################################################################
 
 sub analyse {
-    my $class=shift;
-    my $me=shift;
+    my $class = shift;
+    my $me = shift;
     
-    my $files=$me->d->{files_array};
-    my $distdir=$me->distdir;
+    my $files = $me->d->{files_array};
+    my $distdir = $me->distdir;
 
-    my $pod_errors=0;
+    my $pod_errors = 0;
     my @msgs;
     foreach my $file (@$files) {
-        next unless $file=~/\.p(m|od|l)$/;
+        next unless $file =~ /\.p(m|od|l)$/;
 
         # ignore pod files for examples/tests
         next if $file =~ m!(?:^|/)(x?t|test|ex|eg|examples?|samples?|demos?|inc|local|perl5|fatlib)/!;
@@ -29,10 +29,10 @@ sub analyse {
         next if $me->d->{files_hash}{$file}{has_binary_data};
 
         # Count the number of POD errors
-        my $parser=Pod::Simple::Checker->new;
+        my $parser = Pod::Simple::Checker->new;
         my $errata;
         $parser->output_string(\$errata);
-        my $fullpath = catfile($distdir,$file);
+        my $fullpath = catfile($distdir, $file);
         $fullpath =~ s!\\!/!g if $^O eq 'MSWin32';
         eval { $parser->parse_file($fullpath) };
         if (my $error = $@) {
@@ -40,17 +40,17 @@ sub analyse {
             push(@msgs, $error);
         }
         else {
-            my $errors=()=$errata=~/Around line /g;
-            $pod_errors+=$errors;
-            push(@msgs,$errata) if $errata=~/\w/;
+            my $errors =()= $errata =~ /Around line /g;
+            $pod_errors += $errors;
+            push(@msgs, $errata) if $errata =~ /\w/;
         }
     }
     if (@msgs) {
         # work around Pod::Simple::Checker returning strange data
-        my $errors=join(" ",@msgs);
+        my $errors = join(" ", @msgs);
         $errors =~ s!\n!!g;
         $errors =~ s|POD *ERRORS *Hey! The above document had some coding errors, which are explained below:| |g;
-        $me->d->{error}{no_pod_errors}=$errors;
+        $me->d->{error}{no_pod_errors} = $errors;
     }
 }
 
@@ -62,11 +62,11 @@ sub analyse {
 sub kwalitee_indicators {
     return [
         {
-            name=>'no_pod_errors',
-            error=>q{The documentation for this distribution contains syntactic errors in its POD. Note that this metric tests all .pl, .pm and .pod files, even if they are in t/. See 'pod_message' in the dist error view for more info.},
-            remedy=>q{Remove the POD errors. You can check for POD errors automatically by including Test::Pod to your test suite.},
-            code=>sub { shift->{error}{no_pod_errors} ? 0 : 1 },
-            details=>sub {
+            name => 'no_pod_errors',
+            error => q{The documentation for this distribution contains syntactic errors in its POD. Note that this metric tests all .pl, .pm and .pod files, even if they are in t/. See 'pod_message' in the dist error view for more info.},
+            remedy => q{Remove the POD errors. You can check for POD errors automatically by including Test::Pod to your test suite.},
+            code => sub { shift->{error}{no_pod_errors} ? 0 : 1 },
+            details => sub {
                 return "The following POD errors were found: " . (shift->{error}{no_pod_errors});
             },
         },

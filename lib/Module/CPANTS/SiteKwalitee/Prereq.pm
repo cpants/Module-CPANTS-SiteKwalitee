@@ -19,51 +19,51 @@ sub analyse {
 sub kwalitee_indicators{
     return [
         {
-            name=>'is_prereq',
-            error=>q{This distribution is not required by another distribution by another author.},
-            remedy=>q{Convince / force / bribe another CPAN author to use this distribution.},
-            code=>sub {
+            name => 'is_prereq',
+            error => q{This distribution is not required by another distribution by another author.},
+            remedy => q{Convince / force / bribe another CPAN author to use this distribution.},
+            code => sub {
                 # this metric can only be run from within 
                 # Module::CPANTS::ProcessCPAN
                 return 0;               
             },
-            details=>sub {
+            details => sub {
                 my $d = shift;
                 return "This distribution is not required by another distribution by another author.";
             },
-            needs_db=>1,
-            is_extra=>1,
-            is_disabled=>1,
+            needs_db => 1,
+            is_extra => 1,
+            is_disabled => 1,
         },
         {
-            name=>'prereq_matches_use',
-            error=>q{This distribution uses a module or a dist that's not listed as a prerequisite.},
-            remedy=>q{List all used modules in META.yml requires},
-            code=>sub {
+            name => 'prereq_matches_use',
+            error => q{This distribution uses a module or a dist that's not listed as a prerequisite.},
+            remedy => q{List all used modules in META.yml requires},
+            code => sub {
                 # this metric can only be run from within 
                 # Module::CPANTS::ProcessCPAN
                 return 0;               
             },
-            needs_db=>1,
-            details=>sub {
+            needs_db => 1,
+            details => sub {
                 my $d = shift;
                 return "This distribution uses a module or a dist that's not listed as a prerequisite.";
             },
         },
         {
-            name=>'build_prereq_matches_use',
-            error=>q{This distribution uses a module or a dist in its test suite that's not listed as a build prerequisite.},
-            remedy=>q{List all modules used in the test suite in META.yml build_requires},
-            code=>sub {
+            name => 'build_prereq_matches_use',
+            error => q{This distribution uses a module or a dist in its test suite that's not listed as a build prerequisite.},
+            remedy => q{List all modules used in the test suite in META.yml build_requires},
+            code => sub {
                 # this metric can only be run from within 
                 # Module::CPANTS::ProcessCPAN
                 return 0;               
             },
-            details=>sub {
+            details => sub {
                 my $d = shift;
                 return "This distribution uses a module or a dist in its test suite that's not listed as a build prerequisite.";
             },
-            needs_db=>1,
+            needs_db => 1,
             is_experimental => 1,  # needs refactoring
         },
         

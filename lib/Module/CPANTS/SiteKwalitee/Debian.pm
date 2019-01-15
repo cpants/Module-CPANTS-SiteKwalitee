@@ -9,8 +9,8 @@ sub order { 900 }
 ##################################################################
 
 sub analyse {
-    my $class=shift;
-    my $me=shift;
+    my $class = shift;
+    my $me = shift;
 
     return;
 }
@@ -22,14 +22,14 @@ sub analyse {
 sub kwalitee_indicators{
     return [
          {
-            name=>'easily_repackageable_by_debian',
-            error=>qq{It is easy to repackage this module by Debian.},
-            remedy=>q{Fix each one of the metrics this depends on.},
+            name => 'easily_repackageable_by_debian',
+            error => qq{It is easy to repackage this module by Debian.},
+            remedy => q{Fix each one of the metrics this depends on.},
             aggregating => [qw(no_generated_files has_tests_in_t_dir no_stdin_for_prompting)],
-            is_disabled=>1,
-            is_experimental=>1,
-            code=>\&_aggregator,
-            details=>sub {
+            is_disabled => 1,
+            is_experimental => 1,
+            code => \&_aggregator,
+            details => sub {
                 my $d = shift;
                 return "Fix the following metrics: ".$d->{easily_repackageable_by_debian};
             },
@@ -38,8 +38,8 @@ sub kwalitee_indicators{
 }
 
 sub _aggregator { 
-    my $d=shift;
-    my $metric=shift;
+    my $d = shift;
+    my $metric = shift;
 
     my @errors = grep { !$d->{kwalitee}{$_} } @{ $metric->{aggregating} };
     if (@errors) {

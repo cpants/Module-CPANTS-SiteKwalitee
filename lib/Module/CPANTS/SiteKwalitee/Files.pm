@@ -11,9 +11,9 @@ sub order { 16 } # after ::Kwalitee::Files
 ##################################################################
 
 sub analyse {
-    my $class=shift;
-    my $me=shift;
-    my $distdir=$me->distdir;
+    my $class = shift;
+    my $me = shift;
+    my $distdir = $me->distdir;
 
     my @dot_underscore_files;
     foreach my $name (sort keys %{$me->d->{files_hash} || {}}) {
@@ -42,8 +42,8 @@ sub analyse {
     }
     $me->d->{error}{no_dot_underscore_files} = [sort @dot_underscore_files] if @dot_underscore_files;
 
-    my @generated_files=qw(Build Makefile _build blib pm_to_blib); # files that should not...
-    my %generated_db_files=map_filenames($me, \@generated_files, [keys %{$me->d->{files_hash} || {}}]);
+    my @generated_files = qw(Build Makefile _build blib pm_to_blib); # files that should not...
+    my %generated_db_files = map_filenames($me, \@generated_files, [keys %{$me->d->{files_hash} || {}}]);
     my @found_generated_files = map { $generated_db_files{$_} }
                                 grep { $me->d->{$_} }
                                 keys %generated_db_files;
@@ -53,12 +53,12 @@ sub analyse {
 
     # Check permissions of Build.PL/Makefile.PL
     {
-        my $build_exe=0;
+        my $build_exe = 0;
 
-        $build_exe=1 if ($me->d->{file_makefile_pl} && -x catfile($me->distdir,'Makefile.PL'));
-        $build_exe=2 if ($me->d->{file_build_pl} && -x catfile($me->distdir,'Build.PL'));
-        $build_exe=-1 unless ($me->d->{file_makefile_pl} || $me->d->{file_build_pl});
-        $me->d->{buildfile_executable}=$build_exe;
+        $build_exe = 1 if ($me->d->{file_makefile_pl} && -x catfile($distdir, 'Makefile.PL'));
+        $build_exe = 2 if ($me->d->{file_build_pl} && -x catfile($distdir, 'Build.PL'));
+        $build_exe = -1 unless ($me->d->{file_makefile_pl} || $me->d->{file_build_pl});
+        $me->d->{buildfile_executable} = $build_exe;
     }
 
     # no local directories (for local::lib, carton etc)
@@ -85,10 +85,10 @@ sub map_filenames {
     my ($me, $special_files, $files) = @_;
     my %ret;
     foreach my $file (@$special_files){
-        (my $db_file=$file)=~s/\./_/g;
-        $db_file="file_".lc($db_file);
-        $me->d->{$db_file}=((grep {$_ eq "$file"} @$files)?1:0);
-        $ret{$db_file}=$file;
+        (my $db_file = $file) =~ s/\./_/g;
+        $db_file = "file_" . lc($db_file);
+        $me->d->{$db_file} = ((grep {$_ eq "$file"} @$files) ? 1 : 0);
+        $ret{$db_file} = $file;
     }
     return %ret;
 }
@@ -100,85 +100,85 @@ sub map_filenames {
 sub kwalitee_indicators {
   return [
     {
-        name=>'buildtool_not_executable',
-        error=>q{The build tool (Build.PL/Makefile.PL) is executable. This is bad because you should specify which perl you want to use while installing.},
-        remedy=>q{Change the permissions of Build.PL/Makefile.PL to not-executable.},
-        code=>sub {(shift->{buildfile_executable} || 0) > 0 ? 0 : 1},
-        details=>sub {
+        name => 'buildtool_not_executable',
+        error => q{The build tool (Build.PL/Makefile.PL) is executable. This is bad because you should specify which perl you want to use while installing.},
+        remedy => q{Change the permissions of Build.PL/Makefile.PL to not-executable.},
+        code => sub {(shift->{buildfile_executable} || 0) > 0 ? 0 : 1},
+        details => sub {
             my $d = shift;
             my %filetypes = (1 => 'Makefile.PL', 2 => 'Build.PL');
             return ($filetypes{$d->{buildfile_executable}} || '') . " is executable.";
         },
     },
     {
-        name=>'no_generated_files',
-        error=>q{This distribution has files/directories that should be generated at build time, not distributed by the author.},
-        remedy=>q{Remove the offending files/directories!},
-        code=>sub {
-            my $d=shift;
+        name => 'no_generated_files',
+        error => q{This distribution has files/directories that should be generated at build time, not distributed by the author.},
+        remedy => q{Remove the offending files/directories!},
+        code => sub {
+            my $d = shift;
             return 0 if $d->{error}{no_generated_files};
             return 1;
         },
-        details=>sub {
+        details => sub {
             my $d = shift;
             return "The following files were found: " . $d->{error}{no_generated_files};
         },
     },
     {
-        name=>'portable_filenames',
-        error=>qq{This distribution has at least one file with non-portable characters in its filename, which may cause problems under some environments.},
-        remedy=>q{Rename those files with alphanumerical characters, or maybe remove them because in many cases they are automatically generated for local installation.},
-        code=>sub {
-            my $d=shift;
+        name => 'portable_filenames',
+        error => qq{This distribution has at least one file with non-portable characters in its filename, which may cause problems under some environments.},
+        remedy => q{Rename those files with alphanumerical characters, or maybe remove them because in many cases they are automatically generated for local installation.},
+        code => sub {
+            my $d = shift;
             return 0 if $d->{error}{portable_filenames};
             return 1;
         },
-        details=>sub {
+        details => sub {
             my $d = shift;
             return "The following files were found: " . (join ', ', @{$d->{error}{portable_filenames}});
         },
     },
     {
-        name=>'no_dot_underscore_files',
-        error=>qq{This distribution has dot underscore files which may cause various problems.},
-        remedy=>q{If you use Mac OS X, set COPYFILE_DISABLE (for OS 10.5 and better) or COPY_EXTENDED_ATTRIBUTES_DISABLE (for OS 10.4) environmental variable to true to exclude dot underscore files from a distribution.},
-        code=>sub {
-            my $d=shift;
+        name => 'no_dot_underscore_files',
+        error => qq{This distribution has dot underscore files which may cause various problems.},
+        remedy => q{If you use Mac OS X, set COPYFILE_DISABLE (for OS 10.5 and better) or COPY_EXTENDED_ATTRIBUTES_DISABLE (for OS 10.4) environmental variable to true to exclude dot underscore files from a distribution.},
+        code => sub {
+            my $d = shift;
             return 0 if $d->{error}{no_dot_underscore_files};
             return 1;
         },
-        details=>sub {
+        details => sub {
             my $d = shift;
             return "The following files were found: " . (join ', ', @{$d->{error}{no_dot_underscore_files}});
         },
         is_extra => 1,
     },
     {
-        name=>'no_dot_dirs',
-        error=>qq{This distribution has a dot directory, which most probably derives from a version control system.},
-        remedy=>q{Fix MANIFEST (or MANIFEST.SKIP) to exclude dot directories from a distribution. Use an appropriate tool and avoid archiving your working directory by hand. If you switch your version control system, remove old VCS directories after you migrate.},
-        code=>sub {
-            my $d=shift;
+        name => 'no_dot_dirs',
+        error => qq{This distribution has a dot directory, which most probably derives from a version control system.},
+        remedy => q{Fix MANIFEST (or MANIFEST.SKIP) to exclude dot directories from a distribution. Use an appropriate tool and avoid archiving your working directory by hand. If you switch your version control system, remove old VCS directories after you migrate.},
+        code => sub {
+            my $d = shift;
             return 0 if $d->{error}{no_dot_dirs};
             return 1;
         },
-        details=>sub {
+        details => sub {
             my $d = shift;
             return "The following directories were found: " . $d->{error}{no_dot_dirs};
         },
         is_extra => 1,
     },
     {
-        name=>'no_local_dirs',
+        name => 'no_local_dirs',
         is_extra => 1, # because it's so rare and PAUSE won't index modules in local dirs
-        error=>qq{This distribution contains a well-known directory for local use (i.e. not suitable for a public distribution).},
-        remedy=>q{Fix MANIFEST (or MANIFEST.SKIP) to exclude local directories from a distribution.},
-        code=>sub {
-            my $d=shift;
+        error => qq{This distribution contains a well-known directory for local use (i.e. not suitable for a public distribution).},
+        remedy => q{Fix MANIFEST (or MANIFEST.SKIP) to exclude local directories from a distribution.},
+        code => sub {
+            my $d = shift;
             return 0 if $d->{error}{no_local_dirs};
             return 1;
         },
-        details=>sub {
+        details => sub {
             my $d = shift;
             return "The following directories were found: " . $d->{error}{no_local_dirs};
         },

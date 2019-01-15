@@ -10,19 +10,19 @@ sub analyse {}
 sub kwalitee_indicators {
     return [
         {
-            name=>'no_unauthorized_packages',
-            error=>q{Apparently this distribution has unauthorized packages now.},
-            remedy=>q{Ask the owner of the distribution (the one who released it first, or the one who is designated in x_authority) to give you a (co-)maintainer's permission.},
-            code=>sub {
+            name => 'no_unauthorized_packages',
+            error => q{Apparently this distribution has unauthorized packages now.},
+            remedy => q{Ask the owner of the distribution (the one who released it first, or the one who is designated in x_authority) to give you a (co-)maintainer's permission.},
+            code => sub {
                 my $d = shift;
                 return $d->{error}{no_unauthorized_packages} ? 0 : 1;
             },
-            details=>sub {
+            details => sub {
                 my $d = shift;
                 return "Apparently this distribution has unauthorized packages now: " . $d->{error}{no_unauthorized_packages};
             },
-            needs_db=>1,
-            is_extra=>1,
+            needs_db => 1,
+            is_extra => 1,
         },
     ]
 }

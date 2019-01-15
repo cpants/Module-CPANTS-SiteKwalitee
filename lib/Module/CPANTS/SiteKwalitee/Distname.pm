@@ -9,8 +9,8 @@ sub order { 15 }
 ##################################################################
 
 sub analyse {
-    my $class=shift;
-    my $me=shift;
+    my $class = shift;
+    my $me = shift;
 
     # NOTE: necessary information is gathered while unpacking.
 
@@ -25,10 +25,10 @@ sub analyse {
 sub kwalitee_indicators {
     return [
         {
-            name=>'distname_matches_name_in_meta',
-            error=>"The distribution name (eg. 'Foo-Bar' of Foo-Bar-1.42.tar.gz) does not match the 'name' field in META files.",
-            remedy=>q{Use a proper tool to make a distribution. You might also need to fix META files if you keep them in the repository.},
-            code=>sub {
+            name => 'distname_matches_name_in_meta',
+            error => "The distribution name (eg. 'Foo-Bar' of Foo-Bar-1.42.tar.gz) does not match the 'name' field in META files.",
+            remedy => q{Use a proper tool to make a distribution. You might also need to fix META files if you keep them in the repository.},
+            code => sub {
                 my $d = shift;
                 return 1 if !$d->{meta_yml} || !%{$d->{meta_yml}};
                 if (($d->{meta_yml}{name} || '') ne $d->{dist}) {
@@ -37,7 +37,7 @@ sub kwalitee_indicators {
                 }
                 return 1;
             },
-            details=>sub {
+            details => sub {
                 my $d = shift;
                 return "The distribution name ($d->{dist}) doesn't match the name in META (".($d->{meta_yml}{name} || '').").";
             },

@@ -9,8 +9,8 @@ sub order { 900 }
 ##################################################################
 
 sub analyse {
-    my $class=shift;
-    my $me=shift;
+    my $class = shift;
+    my $me = shift;
 
     return;
 }
@@ -26,31 +26,31 @@ sub kwalitee_indicators{
 
     return [
         {
-            name=>'easily_repackageable_by_fedora',
-            error=>qq{It is easy to repackage this module by Fedora.},
-            remedy=>q{Fix each one of the metrics this depends on.},
-            aggregating=> [qw(no_generated_files fits_fedora_license)],
-            is_experimental=>1,
-            is_disabled=>1,
-            code=>\&_aggregator,
-            details=>sub {
+            name => 'easily_repackageable_by_fedora',
+            error => qq{It is easy to repackage this module by Fedora.},
+            remedy => q{Fix each one of the metrics this depends on.},
+            aggregating => [qw(no_generated_files fits_fedora_license)],
+            is_experimental => 1,
+            is_disabled => 1,
+            code => \&_aggregator,
+            details => sub {
                 my $d = shift;
                 return "Fix the following metrics: ".$d->{easily_repackageable_by_fedora};
             },
         },
         {
-            name=>'fits_fedora_license',
-            error=>qq{Fits the licensing requirements of Fedora ($fedora_licenses).},
-            remedy=>q{Replace the license or convince Fedora to accept this license as well.},
-            is_experimental=>1,
-            is_disabled=>1,
-            code=>sub { 
-                my $d=shift;
+            name => 'fits_fedora_license',
+            error => qq{Fits the licensing requirements of Fedora ($fedora_licenses).},
+            remedy => q{Replace the license or convince Fedora to accept this license as well.},
+            is_experimental => 1,
+            is_disabled => 1,
+            code => sub { 
+                my $d = shift;
                 my $license = $d->{meta_yml}{license};
                 return ((defined $license and grep {$license eq $_} @fedora_licenses) ? 1 : 0);
 
             },
-            details=>sub {
+            details => sub {
                 my $d = shift;
                 my $license = $d->{meta_yml}{license} || 'unknown';
                 return "The license ($license) does not fit the licensing requirements of Fedora ($fedora_licenses).";
@@ -60,8 +60,8 @@ sub kwalitee_indicators{
 }
 
 sub _aggregator { 
-    my $d=shift;
-    my $metric=shift;
+    my $d = shift;
+    my $metric = shift;
 
     my @errors = grep { !$d->{kwalitee}{$_} } @{ $metric->{aggregating} };
     if (@errors) {

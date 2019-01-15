@@ -9,8 +9,8 @@ sub order { 30 }
 ##################################################################
 
 sub analyse {
-    my $class=shift;
-    my $me=shift;
+    my $class = shift;
+    my $me = shift;
 
 }
 
@@ -21,15 +21,15 @@ sub analyse {
 sub kwalitee_indicators{
     return [
     {
-        name=>'no_mymeta_files',
-        error=>q{This distribution contains MYMETA.* files which should be used only locally. This metric should be integrated into 'no_generated_files' eventually, but as MYMETA.* files are recent inventions, you might need to take special care if MANIFEST.SKIP exists in your distribution. Hence this metric.},
-        remedy=>q{Update MANIFEST.SKIP to exclude MYMETA files. If you are lazy, add "#!install_default" in your MANIFEST.SKIP and update your ExtUtils::Manifest if necessary, then some of the most common files will be excluded.},
-        code=>sub {
-            my $d=shift;
+        name => 'no_mymeta_files',
+        error => q{This distribution contains MYMETA.* files which should be used only locally. This metric should be integrated into 'no_generated_files' eventually, but as MYMETA.* files are recent inventions, you might need to take special care if MANIFEST.SKIP exists in your distribution. Hence this metric.},
+        remedy => q{Update MANIFEST.SKIP to exclude MYMETA files. If you are lazy, add "#!install_default" in your MANIFEST.SKIP and update your ExtUtils::Manifest if necessary, then some of the most common files will be excluded.},
+        code => sub {
+            my $d = shift;
             return 0 if $d->{file_mymeta_yml} || $d->{file_mymeta_json};
             return 1;
         },
-        details=>sub {
+        details => sub {
             my $d = shift;
             my @found = grep /MYMETA/, @{$d->{files_array}};
             return "The following files were found: " . join ',', @found;
