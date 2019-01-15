@@ -1,7 +1,7 @@
 package Module::CPANTS::SiteKwalitee::Pod;
 use warnings;
 use strict;
-use Pod::Simple::Checker;
+use Pod::Checker;
 use File::Spec::Functions qw(catfile);
 
 sub order { 1000 }
@@ -29,7 +29,7 @@ sub analyse {
         next if $me->d->{files_hash}{$file}{has_binary_data};
 
         # Count the number of POD errors
-        my $parser = Pod::Simple::Checker->new;
+        my $parser = Pod::Checker->new(-warnings => 0);
         my $errata;
         $parser->output_string(\$errata);
         my $fullpath = catfile($distdir, $file);
@@ -46,9 +46,9 @@ sub analyse {
         }
     }
     if (@msgs) {
-        # work around Pod::Simple::Checker returning strange data
+        # work around Pod::(Simple::)Checker returning strange data
         my $errors = join(" ", @msgs);
-        $errors =~ s!\n!!g;
+        $errors =~ s!\n! !g;
         $errors =~ s|POD *ERRORS *Hey! The above document had some coding errors, which are explained below:| |g;
         $me->d->{error}{no_pod_errors} = $errors;
     }
@@ -101,7 +101,7 @@ Returns C<100>.
 
 =head3 analyse
 
-C<MCK::Pod> uses C<Pod::Simple::Checker> to check if there are any syntactic errors in the POD.
+C<MCK::Pod> uses C<Pod::Checker> to check if there are any syntactic errors in the POD.
 
 It checks all files matching C</\.p(m|od|l)$/>.
 
