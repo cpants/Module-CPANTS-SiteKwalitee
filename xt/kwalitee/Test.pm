@@ -23,6 +23,7 @@ sub run {
 
   my ($name) = $file =~ /(\w+)\.t$/;
 
+  local $Module::CPANTS::Kwalitee::Files::RespectManiskip = 0;
   for my $test (@tests) {
     my $worepan = WorePAN->new(
       root => "$FindBin::Bin/../../tmp",
