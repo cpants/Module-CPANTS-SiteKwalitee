@@ -6,7 +6,7 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/../../../Module-CPANTS-Analyse/lib";
 use Test::More;
-use JSON::MaybeXS;
+use JSON::PP;
 
 BEGIN {
   eval { require WorePAN };
