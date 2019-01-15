@@ -23,6 +23,7 @@ xt::kwalitee::Test::run(
   ['JANDREW/Data-Walk-Extracted-0.024.004.tar.gz', 1],
   ['DOMM/Module-ExtractUse-0.33.tar.gz', 1],
 
+  # no main module
   ['MEWILCOX/apache.authznetldap.02.tar.gz', 0], # 1051
 
   # four dots (may lose info if parsed as a number)
