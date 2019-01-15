@@ -2,10 +2,10 @@ package Module::CPANTS::SiteKwalitee;
 
 use strict;
 use warnings;
-use Module::Pluggable search_path => [
-  'Module::CPANTS::SiteKwalitee',
-  'Module::CPANTS::Kwalitee',
-];
+use Module::CPANTS::Kwalitee qw(
+  Module::CPANTS::SiteKwalitee
+  Module::CPANTS::Kwalitee
+);
 use base 'Module::CPANTS::Kwalitee';
 
 our $VERSION = '0.01';

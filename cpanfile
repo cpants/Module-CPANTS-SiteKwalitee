@@ -1,4 +1,4 @@
-requires 'Module::CPANTS::Analyse' => '0.92';
+requires 'Module::CPANTS::Analyse' => '0.99';
 
 requires 'Capture::Tiny' => 0;
 requires 'File::chdir' => 0;
