@@ -21,7 +21,7 @@ sub analyse {
 
 sub kwalitee_indicators{
     my @fedora_licenses = qw(perl apache artistic_2 gpl lgpl mit mozilla);
-    # based on: http://fedoraproject.org/wiki/Licensing
+    # based on: https://fedoraproject.org/wiki/Licensing?rd=Licensing
     my $fedora_licenses = "Acceptable licenses: (" . join(", ", @fedora_licenses) . ")";
 
     return [
