@@ -51,17 +51,29 @@ sub kwalitee_indicators{
             },
         },
         {
-            name => 'build_prereq_matches_use',
-            error => q{This distribution uses a module or a dist in its test suite that's not listed as a build prerequisite.},
-            remedy => q{List all modules used in the test suite in META.yml build_requires},
+            name => 'test_prereq_matches_use',
+            error => q{This distribution uses a module or a dist in its test suite that's not listed as a test prerequisite.},
+            remedy => q{List all modules used in the test suite in META.yml test_requires},
             code => sub {
-                # this metric can only be run from within 
-                # Module::CPANTS::ProcessCPAN
-                return 0;               
+                return 0;
             },
             details => sub {
                 my $d = shift;
-                return "This distribution uses a module or a dist in its test suite that's not listed as a build prerequisite.";
+                return "This distribution uses a module or a dist in its test suite that's not listed as a test prerequisite.";
+            },
+            needs_db => 1,
+            is_extra => 1,  # needs refactoring
+        },
+        {
+            name => 'configure_prereq_matches_use',
+            error => q{This distribution uses a module or a dist in its Makefile.PL/Build.PL that's not listed as a configure prerequisite.},
+            remedy => q{List all modules used in the Makefile.PL/Build.PL in META.yml configure_requires},
+            code => sub {
+                return 0;
+            },
+            details => sub {
+                my $d = shift;
+                return "This distribution uses a module or a dist in its Makefile.PL/Build.PL that's not listed as a configure prerequisite.";
             },
             needs_db => 1,
             is_experimental => 1,  # needs refactoring
