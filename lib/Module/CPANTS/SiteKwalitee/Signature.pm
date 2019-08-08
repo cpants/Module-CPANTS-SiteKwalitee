@@ -31,7 +31,10 @@ sub analyse {
             $err =~ s/^\s+//s;
             $err =~ s/\s+$//s;
         }
-        $self->d->{error}{valid_signature} = $err if $err;
+        if ($err) {
+            $err =~ s/\(current\)\s+[A-Za-z]{3}\s+[A-Za-z]{3}\s+[0-9]+\s+[0-9]{2}:[0-9]{2}:[0-9]{2}\s+[0-9]{4}//s;
+            $self->d->{error}{valid_signature} = $err;
+        }
     }
 }
 
