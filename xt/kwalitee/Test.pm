@@ -23,6 +23,7 @@ sub run {
 
   my ($name) = $file =~ /(\w+)\.t$/;
 
+  Module::CPANTS::Kwalitee->_load_plugins;
   local $Module::CPANTS::Kwalitee::Files::RespectManiskip = 0;
   for my $test (@tests) {
     my $worepan = WorePAN->new(
