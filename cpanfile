@@ -6,7 +6,7 @@ requires 'File::Spec' => 0;
 requires 'Module::Signature' => '0.82'; # old signature
 requires 'Parse::LocalDistribution' => '0.18'; # 0.17 was broken
 requires 'Parse::PMFile' => '0.35';
-requires 'Pod::Checker' => '0';
+requires 'Pod::Checker' => '1.73';
 requires 'version' => '0.73';
 
 on test => sub {
