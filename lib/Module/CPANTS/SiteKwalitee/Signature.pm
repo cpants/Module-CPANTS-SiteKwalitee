@@ -5,7 +5,7 @@ use File::chdir;
 use Module::Signature qw(verify SIGNATURE_OK SIGNATURE_MISSING);
 use Capture::Tiny qw/capture_stderr/;
 
-sub order { 100 }
+sub order { 8 } # must be earlier than Files as it may modify MANIFEST.SKIP
 
 sub analyse {
     my ($class, $self) = @_;
