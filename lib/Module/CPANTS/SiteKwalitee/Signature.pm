@@ -51,6 +51,7 @@ sub kwalitee_indicators {
             my $d = shift;
             return $d->{error}{valid_signature};
         },
+        is_extra => 1, # uses an external server
     }];
 }
 
