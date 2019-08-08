@@ -106,7 +106,7 @@ sub kwalitee_indicators {
             my $distv = $d->{version};
             return 0 unless defined $distv;
             $distv =~ s/\-TRIAL[0-9]*$//;
-            my $distvv = eval { version->new($distv) };
+            my $distvv = eval { no warnings; version->new($distv) }; # silence overflow warning
 
             my $main_module = ($d->{dist} || '') =~ s/\-/::/gr;
             for my $file (keys %{$d->{versions}}) {
