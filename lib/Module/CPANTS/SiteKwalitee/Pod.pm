@@ -1,7 +1,7 @@
 package Module::CPANTS::SiteKwalitee::Pod;
 use warnings;
 use strict;
-use Pod::Checker;
+use Pod::Simple::Checker;
 use File::Spec::Functions qw(catfile);
 
 sub order { 1000 }
@@ -29,7 +29,7 @@ sub analyse {
         next if $me->d->{files_hash}{$file}{has_binary_data};
 
         # Count the number of POD errors
-        my $parser = Pod::Checker->new(-warnings => 0);
+        my $parser = Pod::Simple::Checker->new;
         my $errata;
         $parser->output_string(\$errata);
         my $fullpath = catfile($distdir, $file);
