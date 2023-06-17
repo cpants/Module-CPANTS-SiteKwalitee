@@ -14,3 +14,7 @@ on test => sub {
   requires 'Test::UseAllModules' => '0.10',
   requires 'WorePAN' => '0.14',
 };
+
+on configure => sub {
+  requires 'ExtUtils::MakeMaker::CPANfile';
+};
