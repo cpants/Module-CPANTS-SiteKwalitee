@@ -17,6 +17,9 @@ sub analyse {
     my $files = $me->d->{files_array};
     my $distdir = $me->distdir;
 
+    no warnings 'redefine';
+    local *Text::Wrap::wrap = sub { $_[2] };
+
     my $pod_errors = 0;
     my @msgs;
     foreach my $file (@$files) {
@@ -50,6 +53,7 @@ sub analyse {
         my $errors = join(" ", @msgs);
         $errors =~ s!\n! !g;
         $errors =~ s|POD *ERRORS *Hey! The above document had some coding errors, which are explained below:| |g;
+        $errors =~ s|  +| |g;
         $me->d->{error}{no_pod_errors} = $errors;
     }
 }
