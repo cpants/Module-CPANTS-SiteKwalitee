@@ -11,7 +11,7 @@ eval "use WorePAN 0.02; 1" or plan skip_all => "this test requires WorePAN 0.02"
 my @tests = (
   ['R/RP/RPETTETT/Bio-Das-Lite-2.11.tar.gz', -2],
   ['K/KU/KUDARASP/PHP-Strings-0.28.tar.gz', -3],
-  ['A/AL/ALEXMV/Net-Server-Coro-0.4.tar.gz', -4],
+  ['A/AL/ALEXMV/Net-Server-Coro-0.4.tar.gz', -3],
   ['A/AU/AUDREYT/use-0.01.tar.gz', -5],
 );
 

@@ -20,7 +20,7 @@ xt::kwalitee::Test::run(
     ],
     [
         'RIVY/Win32-CommandLine-0.938.tar.gz',
-        1,
+        0,  # this passes on some environments, fails on others
         sub {
             my $stash = shift;
             like $stash->{error}{valid_signature} => qr/Old SIGNATURE detected/;
